@@ -25,11 +25,11 @@ public:
 
 	UInternAttributeSet();
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category= "Attributes")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, ReplicatedUsing = OnRep_Health, Category= "Attributes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UInternAttributeSet, Health);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category= "Attributes")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, ReplicatedUsing = OnRep_Mana, Category= "Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UInternAttributeSet, Mana);
 
