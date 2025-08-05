@@ -23,7 +23,6 @@ UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
 void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Data)
 {
 	OnHealthChanged.Broadcast(Data.NewValue); // Widget'a gider
-
 }
 
 void AInternCharacterBase::HandleManaChanged(const FOnAttributeChangeData& Data)

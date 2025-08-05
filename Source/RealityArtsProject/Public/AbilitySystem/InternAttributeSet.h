@@ -32,7 +32,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, ReplicatedUsing = OnRep_Mana, Category= "Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UInternAttributeSet, Mana);
--
+	
 	UPROPERTY(BlueprintReadOnly, Category="Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UInternAttributeSet, IncomingDamage);
