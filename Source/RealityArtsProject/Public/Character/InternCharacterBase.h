@@ -29,6 +29,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Attributes")
 	FOnHealthChangedSignature OnManaChanged;
 
+	UFUNCTION(BlueprintNativeEvent, Category = "GAS")
+	void OnCharacterDied();
+	virtual void OnCharacterDied_Implementation();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -41,5 +45,4 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UInternAttributeSet> AttributeSet;
-	
 };

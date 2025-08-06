@@ -4,6 +4,7 @@
 #include "AbilitySystem/InternAttributeSet.h"
 
 #include "GameplayEffectExtension.h"
+#include "Character/InternCharacterBase.h"
 #include "Net/UnrealNetwork.h"
 
 UInternAttributeSet::UInternAttributeSet()
@@ -38,11 +39,23 @@ void UInternAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 void UInternAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
+	AActor* TargetActor = nullptr;
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	{
+		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+	}
+
+	AInternCharacterBase* GASChar = Cast<AInternCharacterBase>(TargetActor);
 
 	// Limit Health
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, 100));
+
+		if (GetHealth() == 0 && GASChar)
+		{
+			GASChar->OnCharacterDied();
+		}
 	}
 
 	// Limit Mana
@@ -55,12 +68,19 @@ void UInternAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 	else if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
 		const float Damage = GetIncomingDamage();
-		SetIncomingDamage(0.f); // Clean
+		SetIncomingDamage(0.f);
 
 		if (Damage > 0.f)
 		{
 			const float NewHealth = GetHealth() - Damage;
 			SetHealth(FMath::Clamp(NewHealth, 0.f, 100));
+
+			
+			//Check if character died
+			if (GetHealth() == 0 && GASChar)
+			{
+				GASChar->OnCharacterDied();
+			}
 		}
 	}
 }
@@ -74,5 +94,3 @@ void UInternAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UInternAttributeSet, Mana, OldMana);
 }
-
-

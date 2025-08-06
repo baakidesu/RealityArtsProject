@@ -22,7 +22,6 @@ class REALITYARTSPROJECT_API UInternAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 
 public:
-
 	UInternAttributeSet();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, ReplicatedUsing = OnRep_Health, Category= "Attributes")
@@ -47,5 +46,4 @@ protected:
 
 	UFUNCTION()
 	void OnRep_Mana(const FGameplayAttributeData& OldMana);
-	
 };

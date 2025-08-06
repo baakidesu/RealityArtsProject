@@ -19,6 +19,10 @@ UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+void AInternCharacterBase::OnCharacterDied_Implementation()
+{
+
+}
 
 void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Data)
 {
