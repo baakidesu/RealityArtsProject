@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright baakidesu
 
 #include "Character/InternCharacterBase.h"
 #include "GameplayEffectTypes.h"
@@ -11,7 +11,6 @@ AInternCharacterBase::AInternCharacterBase()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AttributeSet = CreateDefaultSubobject<UInternAttributeSet>(TEXT("AttributeSet"));
-
 }
 
 UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
@@ -21,7 +20,7 @@ UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
 
 void AInternCharacterBase::OnCharacterDied_Implementation()
 {
-
+	//Blueprint implemented.
 }
 
 void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Data)

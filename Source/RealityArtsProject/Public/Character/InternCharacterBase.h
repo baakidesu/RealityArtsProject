@@ -1,8 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright baakidesu
 
 #pragma once
 
-#include "GameplayEffectTypes.h" // <-- Bunu ekledik
+#include "GameplayEffectTypes.h"
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "AbilitySystemComponent.h"
