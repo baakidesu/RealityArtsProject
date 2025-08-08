@@ -26,12 +26,12 @@ void AInternCharacterBase::OnCharacterDied_Implementation()
 
 void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Data)
 {
-	OnHealthChanged.Broadcast(Data.NewValue); // Widget'a gider
+	OnHealthChanged.Broadcast(Data.NewValue); // Send value to widget
 }
 
 void AInternCharacterBase::HandleManaChanged(const FOnAttributeChangeData& Data)
 {
-	OnManaChanged.Broadcast(Data.NewValue); // Widget'a gider
+	OnManaChanged.Broadcast(Data.NewValue); // Send value to widget
 }
 
 void AInternCharacterBase::BeginPlay()
