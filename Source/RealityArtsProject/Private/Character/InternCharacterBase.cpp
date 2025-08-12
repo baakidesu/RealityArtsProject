@@ -4,6 +4,7 @@
 #include "GameplayEffectTypes.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/InternAttributeSet.h"
+#include "Components/CapsuleComponent.h"
 
 AInternCharacterBase::AInternCharacterBase()
 {
@@ -11,6 +12,10 @@ AInternCharacterBase::AInternCharacterBase()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AttributeSet = CreateDefaultSubobject<UInternAttributeSet>(TEXT("AttributeSet"));
+
+	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
@@ -18,9 +23,21 @@ UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
-void AInternCharacterBase::OnCharacterDied_Implementation()
+void AInternCharacterBase::Die()
 {
-	//Blueprint implemented.
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Destroy();
 }
 
 void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Data)

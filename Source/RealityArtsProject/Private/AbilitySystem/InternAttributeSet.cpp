@@ -39,47 +39,41 @@ void UInternAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 void UInternAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
-	AActor* TargetActor = nullptr;
-	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
-	{
-		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-	}
-
-	AInternCharacterBase* GASChar = Cast<AInternCharacterBase>(TargetActor);
-
-	// Limit Health
+	
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
-		SetHealth(FMath::Clamp(GetHealth(), 0.f, 100));
-
-		if (GetHealth() == 0 && GASChar)
-		{
-			GASChar->OnCharacterDied();
-		}
+		SetHealth(FMath::Clamp(GetHealth(),0.f,100));
 	}
 
-	// Limit Mana
-	else if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
-		SetMana(FMath::Clamp(GetMana(), 0.f, 100));
+		SetMana(FMath::Clamp(GetMana(),0.f,100));
 	}
-
-	// Apply Damage
-	else if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+ 
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
-		const float Damage = GetIncomingDamage();
+		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
-
-		if (Damage > 0.f)
+		if (LocalIncomingDamage > 0)
 		{
-			const float NewHealth = GetHealth() - Damage;
-			SetHealth(FMath::Clamp(NewHealth, 0.f, 100));
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth,0.f,100));
 
-			
-			//Check if character died
-			if (GetHealth() == 0 && GASChar)
+			const bool bFatal = NewHealth <= 0.f;
+
+			if (bFatal)
 			{
-				GASChar->OnCharacterDied();
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Data.Target.AbilityActorInfo->AvatarActor.Get());
+
+				if (CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+			}
+
+			else
+			{
+				FGameplayTagContainer TagContainer;
 			}
 		}
 	}
