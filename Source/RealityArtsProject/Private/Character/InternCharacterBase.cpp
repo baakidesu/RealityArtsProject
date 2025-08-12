@@ -36,8 +36,6 @@ void AInternCharacterBase::Die()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	Destroy();
 }
 
 void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Data)

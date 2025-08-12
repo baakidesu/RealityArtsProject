@@ -72,7 +72,7 @@ void UInternAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			}
 
 			else
-			{
+			{ 
 				FGameplayTagContainer TagContainer;
 			}
 		}
