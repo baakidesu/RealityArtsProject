@@ -30,8 +30,14 @@ protected:
 	TSubclassOf<AActor> EnemyActorClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
-	int32 CurrentWaveIndex = 1;
+	int32 CurrentWaveIndex = 0;
 	
 	UFUNCTION(BlueprintCallable, Category="Wave")
 	void IncreaseWaveIndexAndSpawnEnemies();
+
+private:
+	void SpawnEnemies();
+	bool IncreasedByEnemy = false;
+	bool SuccessfullyIncreasedWaveByTime = false;
+	int32 TotalEnemiesToKill = 0;
 };

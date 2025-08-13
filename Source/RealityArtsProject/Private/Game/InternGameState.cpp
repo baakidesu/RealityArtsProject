@@ -9,21 +9,25 @@
 void AInternGameState::IncreaseDiedEnemyCount()
 {
 	DiedEnemyCount++;
-	if (DiedEnemyCount == WaveEnemyCount[CurrentWaveIndex-1])
+	if (DiedEnemyCount == TotalEnemiesToKill)
 	{
-		DiedEnemyCount = 0;
-		IncreaseWaveIndexAndSpawnEnemies();
+		TotalEnemiesToKill = 0;
+		SpawnEnemies();
 	}
 }
 
 void AInternGameState::IncreaseWaveIndexAndSpawnEnemies()
 {
-	CurrentWaveIndex++;
-	for (int i = 1; i<=WaveEnemyCount[CurrentWaveIndex-1]; i++)
+	SpawnEnemies();
+}
+
+void AInternGameState::SpawnEnemies()
+{
+	for (int i = 0; i < WaveEnemyCount[CurrentWaveIndex]; i++)
 	{
 		FVector Origin = FVector::ZeroVector;
 		float Radius = 99000.f;
-		
+
 		UNavigationSystemV1* NavSys = UNavigationSystemV1::GetCurrent(GetWorld());
 		if (!NavSys) return;
 
@@ -34,5 +38,8 @@ void AInternGameState::IncreaseWaveIndexAndSpawnEnemies()
 		{
 			GetWorld()->SpawnActor<AActor>(EnemyActorClass, RandomPoint.Location, FRotator::ZeroRotator);
 		}
+
+		TotalEnemiesToKill++;
 	}
+	CurrentWaveIndex++;
 }
