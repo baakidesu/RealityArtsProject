@@ -3,19 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Character/InternEnemy.h"
-#include "GameFramework/GameStateBase.h"
-#include "InternGameState.generated.h"
+#include "GameFramework/GameModeBase.h"
+#include "InternGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class REALITYARTSPROJECT_API AInternGameState : public AGameStateBase
+class REALITYARTSPROJECT_API AInternGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 public:
-	
+
 	UPROPERTY(BlueprintReadWrite, Category="Combat")
 	float DiedEnemyCount = 0;
 	

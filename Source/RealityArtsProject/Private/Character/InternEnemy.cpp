@@ -2,19 +2,21 @@
 
 
 #include "Character/InternEnemy.h"
+#include "Components/WidgetComponent.h"
 
-#include "Game/InternGameState.h"
-#include "Kismet/GameplayStatics.h"
+
+AInternEnemy::AInternEnemy()
+{
+	HealthBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBarWidget"));
+	HealthBarWidget->SetupAttachment(GetRootComponent());
+}
 
 void AInternEnemy::Die()
 {
 	SetLifeSpan(5.f);
 
-	AInternGameState* GameState = Cast<AInternGameState>(UGameplayStatics::GetGameState(this));
-	if (GameState && HasAuthority())
-	{
-		GameState->IncreaseDiedEnemyCount();
-	}
-
+	OnDeath.Broadcast(this);
 	Super::Die();
 }
+
+

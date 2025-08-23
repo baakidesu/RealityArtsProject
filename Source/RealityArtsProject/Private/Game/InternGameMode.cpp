@@ -1,13 +1,27 @@
 // Copyright baakidesu
 
 
-#include "Game/InternGameState.h"
+#include "Game/InternGameMode.h"
 #include "NavigationSystem.h"
+#include "Character/InternEnemy.h"
 
-
-
-void AInternGameState::IncreaseDiedEnemyCount()
+void AInternGameMode::IncreaseDiedEnemyCount()
 {
+	
+}
+
+void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
+{
+	SpawnEnemies();
+}
+
+void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
+{
+	if (Enemy && Enemy->HealthBarWidget)
+	{
+		Enemy->HealthBarWidget->DestroyComponent();
+	}
+	
 	DiedEnemyCount++;
 	if (DiedEnemyCount == TotalEnemiesToKill)
 	{
@@ -16,17 +30,7 @@ void AInternGameState::IncreaseDiedEnemyCount()
 	}
 }
 
-void AInternGameState::IncreaseWaveIndexAndSpawnEnemies()
-{
-	SpawnEnemies();
-}
-
-void AInternGameState::OnEnemyDeath(AInternEnemy* Enemy)
-{
-	UE_LOG(LogTemp, Warning, TEXT("OnEnemyDeath called!"));
-}
-
-void AInternGameState::SpawnEnemies()
+void AInternGameMode::SpawnEnemies()
 {
 	for (int i = 0; i < WaveEnemyCount[CurrentWaveIndex]; i++)
 	{
@@ -44,7 +48,7 @@ void AInternGameState::SpawnEnemies()
 			AInternEnemy* SpawnedEnemy = GetWorld()->SpawnActor<AInternEnemy>(EnemyActorClass, RandomPoint.Location, FRotator::ZeroRotator);
 			if (SpawnedEnemy != nullptr)
 			{
-				SpawnedEnemy->OnDeath.AddDynamic(this, &AInternGameState::OnEnemyDeath);
+				SpawnedEnemy->OnDeath.AddDynamic(this, &AInternGameMode::OnEnemyDeath);
 			}
 		}
 
