@@ -1,54 +1,28 @@
 // Copyright baakidesu
 
-
 #include "Game/InternGameState.h"
-#include "NavigationSystem.h"
 
+#include "Net/UnrealNetwork.h"
 
-
-void AInternGameState::IncreaseDiedEnemyCount()
+void AInternGameState::SetHowGameEnds(bool bDidWin)
 {
-	DiedEnemyCount++;
-	if (DiedEnemyCount == TotalEnemiesToKill)
-	{
-		TotalEnemiesToKill = 0;
-		SpawnEnemies();
-	}
+	if (!HasAuthority()) return;
+
+	DidWin = bDidWin;
+	GameEnded = true;
+
+	OnGameEnds.Broadcast(DidWin);
 }
 
-void AInternGameState::IncreaseWaveIndexAndSpawnEnemies()
+void AInternGameState::OnRep_GameEnds()
 {
-	SpawnEnemies();
+	OnGameEnds.Broadcast(DidWin);
 }
 
-void AInternGameState::OnEnemyDeath(AInternEnemy* Enemy)
+
+void AInternGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnEnemyDeath called!"));
-}
-
-void AInternGameState::SpawnEnemies()
-{
-	for (int i = 0; i < WaveEnemyCount[CurrentWaveIndex]; i++)
-	{
-		FVector Origin = FVector::ZeroVector;
-		float Radius = 99000.f;
-
-		UNavigationSystemV1* NavSys = UNavigationSystemV1::GetCurrent(GetWorld());
-		if (!NavSys) return;
-
-		FNavLocation RandomPoint;
-		bool bFound = NavSys->GetRandomReachablePointInRadius(Origin, Radius, RandomPoint);
-
-		if (bFound)
-		{
-			AInternEnemy* SpawnedEnemy = GetWorld()->SpawnActor<AInternEnemy>(EnemyActorClass, RandomPoint.Location, FRotator::ZeroRotator);
-			if (SpawnedEnemy != nullptr)
-			{
-				SpawnedEnemy->OnDeath.AddDynamic(this, &AInternGameState::OnEnemyDeath);
-			}
-		}
-
-		TotalEnemiesToKill++;
-	}
-	CurrentWaveIndex++;
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AInternGameState, DidWin);
+	DOREPLIFETIME(AInternGameState, GameEnded);
 }

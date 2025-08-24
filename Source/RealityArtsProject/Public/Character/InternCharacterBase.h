@@ -30,11 +30,13 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Attributes")
 	FOnHealthChangedSignature OnManaChanged;
 	
-	/* Combat Interface */
-	virtual void Die() override;
+	
 
 protected:
 	virtual void BeginPlay() override;
+
+	/* Combat Interface */
+	virtual void Die() override;
 
 	void HandleHealthChanged(const FOnAttributeChangeData& Data);
 	void HandleManaChanged(const FOnAttributeChangeData& Data);
@@ -47,4 +49,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool bIsAlive = true;
 };

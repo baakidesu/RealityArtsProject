@@ -4,34 +4,23 @@
 #include "Game/InternGameMode.h"
 #include "NavigationSystem.h"
 #include "Character/InternEnemy.h"
+#include "Game/InternGameState.h"
+#include "Player/InternPlayerController.h"
 
-void AInternGameMode::IncreaseDiedEnemyCount()
+AInternGameMode::AInternGameMode()
 {
-	
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
 {
-	SpawnEnemies();
-}
-
-void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
-{
-	if (Enemy && Enemy->HealthBarWidget)
+	if (!WaveEnemyCount.IsValidIndex(CurrentWaveIndex))
 	{
-		Enemy->HealthBarWidget->DestroyComponent();
+		//TODO:: END GAME WIN
+		GetWorldTimerManager().SetTimer(TimerHandle, this, &AInternGameMode::DelayedWinGame, 3.0f, false);
+		return;
 	}
 	
-	DiedEnemyCount++;
-	if (DiedEnemyCount == TotalEnemiesToKill)
-	{
-		TotalEnemiesToKill = 0;
-		SpawnEnemies();
-	}
-}
-
-void AInternGameMode::SpawnEnemies()
-{
 	for (int i = 0; i < WaveEnemyCount[CurrentWaveIndex]; i++)
 	{
 		FVector Origin = FVector::ZeroVector;
@@ -55,4 +44,33 @@ void AInternGameMode::SpawnEnemies()
 		TotalEnemiesToKill++;
 	}
 	CurrentWaveIndex++;
+}
+
+void AInternGameMode::EndGame(bool bDidWin)
+{
+	if (AInternGameState* GS = GetGameState<AInternGameState>())
+	{
+		GS->SetHowGameEnds(bDidWin);
+	}
+}
+
+void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
+{
+	if (Enemy && Enemy->HealthBarWidget)
+	{
+		Enemy->HealthBarWidget->DestroyComponent();
+	}
+	
+	DiedEnemyCount++;
+	if (DiedEnemyCount == TotalEnemiesToKill)
+	{
+		TotalEnemiesToKill = 0;
+		DiedEnemyCount = 0;
+		IncreaseWaveIndexAndSpawnEnemies();
+	}
+}
+
+void AInternGameMode::DelayedWinGame()
+{
+	EndGame(true);
 }

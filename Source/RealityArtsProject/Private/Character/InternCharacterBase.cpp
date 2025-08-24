@@ -25,7 +25,10 @@ UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
 
 void AInternCharacterBase::Die()
 {
+	bIsAlive = false;
 	//TODO: Maintance Weapon Ragdoll
+
+	//TODO: Handle Camera.
 
 	Weapon->DestroyComponent();
 	
@@ -33,7 +36,8 @@ void AInternCharacterBase::Die()
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
-	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);*/
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	*/
 
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetEnableGravity(true);

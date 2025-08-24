@@ -18,5 +18,3 @@ void AInternEnemy::Die()
 	OnDeath.Broadcast(this);
 	Super::Die();
 }
-
-

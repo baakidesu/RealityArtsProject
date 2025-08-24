@@ -13,13 +13,10 @@ UCLASS()
 class REALITYARTSPROJECT_API AInternGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-public:
-
-	UPROPERTY(BlueprintReadWrite, Category="Combat")
-	float DiedEnemyCount = 0;
 	
-	void IncreaseDiedEnemyCount();
-
+public:
+	AInternGameMode();
+	
 protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
@@ -28,18 +25,27 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
 	TSubclassOf<AInternEnemy> EnemyActorClass;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
+	UPROPERTY(BlueprintReadOnly, Category="Wave")
 	int32 CurrentWaveIndex = 0;
 	
 	UFUNCTION(BlueprintCallable, Category="Wave")
 	void IncreaseWaveIndexAndSpawnEnemies();
 
-	UFUNCTION()
-	void OnEnemyDeath(AInternEnemy* Enemy);
+	UFUNCTION(BlueprintCallable, Category="Game Condition")
+	void EndGame(bool bDidWin);
+
+	
 
 private:
-	void SpawnEnemies();
-	bool IncreasedByEnemy = false;
-	bool SuccessfullyIncreasedWaveByTime = false;
+
+	UFUNCTION()   //This function calls EndGame(true).
+	void DelayedWinGame();
+
+	FTimerHandle TimerHandle;
+
+	UFUNCTION()
+	void OnEnemyDeath(AInternEnemy* Enemy);
+	float DiedEnemyCount = 0;
+	
 	int32 TotalEnemiesToKill = 0;
 };

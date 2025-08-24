@@ -7,6 +7,9 @@
 #include "GameFramework/GameStateBase.h"
 #include "InternGameState.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameEnds, bool, bDidWin);
+
 /**
  * 
  */
@@ -14,33 +17,23 @@ UCLASS()
 class REALITYARTSPROJECT_API AInternGameState : public AGameStateBase
 {
 	GENERATED_BODY()
-public:
-	
-	UPROPERTY(BlueprintReadWrite, Category="Combat")
-	float DiedEnemyCount = 0;
-	
-	void IncreaseDiedEnemyCount();
 
+public:
+	UPROPERTY(BlueprintAssignable, Category="GameState")
+	FOnGameEnds OnGameEnds;
+
+	void SetHowGameEnds(bool bDidWin);
 protected:
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
-	TArray<int32> WaveEnemyCount;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
-	TSubclassOf<AInternEnemy> EnemyActorClass;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
-	int32 CurrentWaveIndex = 0;
-	
-	UFUNCTION(BlueprintCallable, Category="Wave")
-	void IncreaseWaveIndexAndSpawnEnemies();
-
 	UFUNCTION()
-	void OnEnemyDeath(AInternEnemy* Enemy);
+	void OnRep_GameEnds();
 
-private:
-	void SpawnEnemies();
-	bool IncreasedByEnemy = false;
-	bool SuccessfullyIncreasedWaveByTime = false;
-	int32 TotalEnemiesToKill = 0;
+	UPROPERTY(Replicated)
+	bool GameEnded;
+
+	UPROPERTY(ReplicatedUsing = OnRep_GameEnds)
+	bool DidWin;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 };
