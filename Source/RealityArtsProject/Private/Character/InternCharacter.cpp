@@ -9,5 +9,3 @@ void AInternCharacter::Die()
 {
 	Super::Die();
 }
-
-
