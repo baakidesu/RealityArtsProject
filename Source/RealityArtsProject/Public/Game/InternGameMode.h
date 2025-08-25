@@ -16,6 +16,9 @@ class REALITYARTSPROJECT_API AInternGameMode : public AGameModeBase
 	
 public:
 	AInternGameMode();
+
+	UFUNCTION(BlueprintCallable, Category = "Game")
+	void ChangeLevel(FName LevelName);
 	
 protected:
 
