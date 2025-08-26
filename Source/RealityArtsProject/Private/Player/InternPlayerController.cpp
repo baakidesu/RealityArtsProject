@@ -5,14 +5,28 @@
 
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Game/InternGameState.h"
+#include "Kismet/GameplayStatics.h"
 #include "Widget/InternHUD.h"
 
 void AInternPlayerController::SendGameOverInformationToHUD(bool DidWin)
 {
-	if (AInternHUD* HUD = GetHUD<AInternHUD>())
+	if (!WinWidgetClass || !LoseWidgetClass) return;
+	TSubclassOf<UUserWidget> WidgetToCreate = DidWin ? WinWidgetClass : LoseWidgetClass;
+
+	TArray<UUserWidget*> FoundWidgets;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), FoundWidgets, UUserWidget::StaticClass(), false);
+	for (UUserWidget* Widget : FoundWidgets)
 	{
-		HUD->HandleEndGameWidget(DidWin);
+		if (Widget)
+		{
+			Widget->RemoveFromParent();
+		}
 	}
+	
+	UUserWidget* EndGameWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetToCreate);
+	EndGameWidget->AddToViewport(0);
+	SetShowMouseCursor(true);
+	UGameplayStatics::SetGamePaused(GetWorld(),true);
 }
 
 void AInternPlayerController::BeginPlay()

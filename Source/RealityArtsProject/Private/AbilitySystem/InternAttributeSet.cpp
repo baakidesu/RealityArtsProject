@@ -59,7 +59,7 @@ void UInternAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			const float NewHealth = GetHealth() - LocalIncomingDamage;
 			SetHealth(FMath::Clamp(NewHealth,0.f,100));
 
-			const bool bFatal = NewHealth <= 0.f;
+			/*const bool bFatal = NewHealth <= 0.f;
 
 			if (bFatal)
 			{
@@ -74,7 +74,7 @@ void UInternAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 			else
 			{ 
 				FGameplayTagContainer TagContainer;
-			}
+			}*/
 		}
 	}
 }

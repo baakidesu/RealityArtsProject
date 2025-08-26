@@ -22,4 +22,10 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "End Game Properties")
+	TSubclassOf<UUserWidget> LoseWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "End Game Properties")
+	TSubclassOf<UUserWidget> WinWidgetClass;
+
 };

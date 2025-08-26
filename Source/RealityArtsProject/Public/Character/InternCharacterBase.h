@@ -30,7 +30,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Attributes")
 	FOnHealthChangedSignature OnManaChanged;
 	
-	
 
 protected:
 	virtual void BeginPlay() override;

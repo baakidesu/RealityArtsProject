@@ -18,6 +18,22 @@ AInternCharacterBase::AInternCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void AInternCharacterBase::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+			AttributeSet->GetHealthAttribute()
+		).AddUObject(this, &AInternCharacterBase::HandleHealthChanged);
+
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+			AttributeSet->GetManaAttribute()
+		).AddUObject(this, &AInternCharacterBase::HandleManaChanged);
+	}
+}
+
 UAbilitySystemComponent* AInternCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -50,6 +66,11 @@ void AInternCharacterBase::Die()
 void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Data)
 {
 	OnHealthChanged.Broadcast(Data.NewValue); // Send value to widget
+
+	if (Data.NewValue <= 0)
+	{
+		Die();
+	}
 }
 
 void AInternCharacterBase::HandleManaChanged(const FOnAttributeChangeData& Data)
@@ -57,18 +78,3 @@ void AInternCharacterBase::HandleManaChanged(const FOnAttributeChangeData& Data)
 	OnManaChanged.Broadcast(Data.NewValue); // Send value to widget
 }
 
-void AInternCharacterBase::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	if (AbilitySystemComponent)
-	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-			AttributeSet->GetHealthAttribute()
-		).AddUObject(this, &AInternCharacterBase::HandleHealthChanged);
-
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-			AttributeSet->GetManaAttribute()
-		).AddUObject(this, &AInternCharacterBase::HandleManaChanged);
-	}
-}
