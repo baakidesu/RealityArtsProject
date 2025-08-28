@@ -6,9 +6,8 @@
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Game/InternGameState.h"
 #include "Kismet/GameplayStatics.h"
-#include "Widget/InternHUD.h"
 
-void AInternPlayerController::SendGameOverInformationToHUD(bool DidWin)
+void AInternPlayerController::CreateGameOverWidget(bool DidWin)
 {
 	if (!WinWidgetClass || !LoseWidgetClass) return;
 	TSubclassOf<UUserWidget> WidgetToCreate = DidWin ? WinWidgetClass : LoseWidgetClass;
@@ -35,6 +34,11 @@ void AInternPlayerController::BeginPlay()
 
 	if (AInternGameState* GS = GetWorld()->GetGameState<AInternGameState>())
 	{
-		GS->OnGameEnds.AddDynamic(this, &AInternPlayerController::SendGameOverInformationToHUD);
+		GS->OnGameEnds.AddDynamic(this, &AInternPlayerController::CreateGameOverWidget);
 	}
+
+	UUserWidget* OverlayWidget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
+	if (!OverlayWidget) return;
+	OverlayWidget->AddToViewport(0);
+	
 }

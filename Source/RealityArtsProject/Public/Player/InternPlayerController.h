@@ -18,14 +18,17 @@ class REALITYARTSPROJECT_API AInternPlayerController : public APlayerController
 public:
 	
 	UFUNCTION()
-	void SendGameOverInformationToHUD(bool DidWin);
+	void CreateGameOverWidget(bool DidWin);
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "End Game Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | End Game Properties")
 	TSubclassOf<UUserWidget> LoseWidgetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "End Game Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | Game Properties")
+	TSubclassOf<UUserWidget> OverlayWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | End Game Properties")
 	TSubclassOf<UUserWidget> WinWidgetClass;
 
 };
