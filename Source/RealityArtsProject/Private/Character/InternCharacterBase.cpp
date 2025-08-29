@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/InternAttributeSet.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AInternCharacterBase::AInternCharacterBase()
 {
@@ -31,6 +32,10 @@ void AInternCharacterBase::BeginPlay()
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 			AttributeSet->GetManaAttribute()
 		).AddUObject(this, &AInternCharacterBase::HandleManaChanged);
+
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+			AttributeSet->GetWalkSpeedAttribute()
+		).AddUObject(this, &AInternCharacterBase::HandleWalkSpeedChanged);
 	}
 }
 
@@ -76,5 +81,12 @@ void AInternCharacterBase::HandleHealthChanged(const FOnAttributeChangeData& Dat
 void AInternCharacterBase::HandleManaChanged(const FOnAttributeChangeData& Data)
 {
 	OnManaChanged.Broadcast(Data.NewValue); // Send value to widget
+}
+
+void AInternCharacterBase::HandleWalkSpeedChanged(const FOnAttributeChangeData& Data)
+{
+	GetCharacterMovement()->MaxWalkSpeed = Data.NewValue;
+	FString DebugMsg = FString::Printf(TEXT("Speed: %f"), GetCharacterMovement()->MaxWalkSpeed);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, DebugMsg);
 }
 

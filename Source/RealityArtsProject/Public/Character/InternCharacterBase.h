@@ -29,6 +29,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Attributes")
 	FOnHealthChangedSignature OnManaChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "Attributes")
+	FOnHealthChangedSignature OnWalkSpeedChanged;
 	
 
 protected:
@@ -39,6 +42,7 @@ protected:
 
 	void HandleHealthChanged(const FOnAttributeChangeData& Data);
 	void HandleManaChanged(const FOnAttributeChangeData& Data);
+	void HandleWalkSpeedChanged(const FOnAttributeChangeData& Data);
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -51,4 +55,7 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bIsAlive = true;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Character")
+	float WalkSpeed;
 };
