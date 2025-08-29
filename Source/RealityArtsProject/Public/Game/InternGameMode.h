@@ -17,11 +17,7 @@ class REALITYARTSPROJECT_API AInternGameMode : public AGameModeBase
 public:
 	AInternGameMode();
 
-	UFUNCTION(BlueprintCallable, Category = "Game")
-	void ChangeLevel(FName LevelName);
-	
 protected:
-
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
 	TArray<int32> WaveEnemyCount;
 
@@ -36,8 +32,6 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category="Game Condition")
 	void EndGame(bool bDidWin);
-
-	
 
 private:
 

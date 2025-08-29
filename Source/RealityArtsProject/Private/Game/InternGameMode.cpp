@@ -5,17 +5,11 @@
 #include "NavigationSystem.h"
 #include "Character/InternEnemy.h"
 #include "Game/InternGameState.h"
-#include "Kismet/GameplayStatics.h"
-#include "Player/InternPlayerController.h"
+
 
 AInternGameMode::AInternGameMode()
 {
 	PrimaryActorTick.bCanEverTick = false;
-}
-
-void AInternGameMode::ChangeLevel(FName LevelName)
-{
-	UGameplayStatics::OpenLevel(GetWorld(), LevelName);
 }
 
 void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()

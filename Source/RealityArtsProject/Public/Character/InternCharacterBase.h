@@ -37,6 +37,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
+
 	/* Combat Interface */
 	virtual void Die() override;
 
