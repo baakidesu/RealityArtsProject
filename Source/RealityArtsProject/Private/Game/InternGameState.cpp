@@ -4,6 +4,11 @@
 
 #include "Net/UnrealNetwork.h"
 
+void AInternGameState::Multicast_Upgrade_Implementation()
+{
+	OnUpgradeUnlocked.Broadcast();
+}
+
 void AInternGameState::SetHowGameEnds(bool bDidWin)
 {
 	if (!HasAuthority()) return;
@@ -17,6 +22,11 @@ void AInternGameState::SetHowGameEnds(bool bDidWin)
 void AInternGameState::OnRep_GameEnds()
 {
 	OnGameEnds.Broadcast(DidWin);
+}
+
+void AInternGameState::OnRep_Upgrade()
+{
+	OnUpgradeUnlocked.Broadcast();
 }
 
 

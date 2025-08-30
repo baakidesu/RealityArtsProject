@@ -33,6 +33,11 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Game Condition")
 	void EndGame(bool bDidWin);
 
+	float Score = 0;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game")
+	float ScoreToLevelUp;
+
 private:
 
 	UFUNCTION()   //This function calls EndGame(true).

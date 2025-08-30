@@ -31,4 +31,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | End Game Properties")
 	TSubclassOf<UUserWidget> WinWidgetClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | Game Properties")
+	TSubclassOf<UUserWidget> UpgradeWidgetClass;
+
+	UFUNCTION(BlueprintCallable)
+	void CreateUpgradeWidget();
+
+	UPROPERTY(BlueprintReadWrite)
+	UUserWidget* OverlayWidget;
+	
+	UPROPERTY(BlueprintReadWrite)
+	UUserWidget* UpgradeWidget;
+
+private:
+	void FocusWidget(UUserWidget* WidgetToFocus, bool bPauseGame);
+
+	void UnfocusWidget(UUserWidget* WidgetToUnfocus);
+
+	UFUNCTION(BlueprintCallable)
+	void UnfocusUpgradeWidget();
 };

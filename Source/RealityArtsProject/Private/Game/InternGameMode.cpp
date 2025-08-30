@@ -5,6 +5,7 @@
 #include "NavigationSystem.h"
 #include "Character/InternEnemy.h"
 #include "Game/InternGameState.h"
+#include "Player/InternPlayerController.h"
 
 
 AInternGameMode::AInternGameMode()
@@ -62,6 +63,16 @@ void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
 	}
 	
 	DiedEnemyCount++;
+	Score += 5;
+
+	if (Score >= ScoreToLevelUp)
+	{
+		if (AInternGameState* GS = GetGameState<AInternGameState>())
+		{
+			GS->Multicast_Upgrade();
+		}
+	}
+	
 	if (DiedEnemyCount == TotalEnemiesToKill)
 	{
 		TotalEnemiesToKill = 0;
