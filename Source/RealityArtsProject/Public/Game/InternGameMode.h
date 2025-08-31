@@ -17,6 +17,8 @@ class REALITYARTSPROJECT_API AInternGameMode : public AGameModeBase
 public:
 	AInternGameMode();
 
+	void BeginPlay() override;
+
 protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
 	TArray<int32> WaveEnemyCount;
@@ -33,6 +35,10 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Game Condition")
 	void EndGame(bool bDidWin);
 
+	UFUNCTION(BlueprintImplementableEvent, Category="Widget | Score")
+	void BroadcastScore();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game")
 	float Score = 0;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game")

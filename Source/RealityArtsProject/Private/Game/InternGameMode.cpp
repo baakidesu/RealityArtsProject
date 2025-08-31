@@ -5,12 +5,16 @@
 #include "NavigationSystem.h"
 #include "Character/InternEnemy.h"
 #include "Game/InternGameState.h"
-#include "Player/InternPlayerController.h"
 
 
 AInternGameMode::AInternGameMode()
 {
 	PrimaryActorTick.bCanEverTick = false;
+}
+
+void AInternGameMode::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
@@ -45,6 +49,7 @@ void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
 		TotalEnemiesToKill++;
 	}
 	CurrentWaveIndex++;
+	BroadcastScore();
 }
 
 void AInternGameMode::EndGame(bool bDidWin)
@@ -55,6 +60,7 @@ void AInternGameMode::EndGame(bool bDidWin)
 	}
 }
 
+
 void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
 {
 	if (Enemy && Enemy->HealthBarWidget)
@@ -63,7 +69,8 @@ void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
 	}
 	
 	DiedEnemyCount++;
-	Score += 10;
+	Score += 5;
+	BroadcastScore();
 
 	if (Score >= ScoreToLevelUp)
 	{
@@ -72,7 +79,7 @@ void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
 			GS->Multicast_Upgrade();
 		}
 
-		ScoreToLevelUp *= 1.7f;
+		ScoreToLevelUp += 90;
 	}
 	
 	if (DiedEnemyCount == TotalEnemiesToKill)

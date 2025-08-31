@@ -69,7 +69,7 @@ void AInternPlayerController::FocusWidget(UUserWidget* WidgetToFocus, bool bPaus
 
 	SetInputMode(InputMode);
 	bShowMouseCursor = true;
-	SetPause(bPauseGame);
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.5f);
 }
 
 void AInternPlayerController::UnfocusWidget(UUserWidget* WidgetToUnfocus)
@@ -81,7 +81,7 @@ void AInternPlayerController::UnfocusWidget(UUserWidget* WidgetToUnfocus)
 	SetInputMode(Mode);
 
 	bShowMouseCursor = false;
-	SetPause(false);
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.f);
 }
 
 void AInternPlayerController::UnfocusUpgradeWidget()
