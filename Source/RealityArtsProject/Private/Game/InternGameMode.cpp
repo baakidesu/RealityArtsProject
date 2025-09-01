@@ -79,7 +79,7 @@ void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
 			GS->Multicast_Upgrade();
 		}
 
-		ScoreToLevelUp += 90;
+		ScoreToLevelUp += 5;
 	}
 	
 	if (DiedEnemyCount == TotalEnemiesToKill)
