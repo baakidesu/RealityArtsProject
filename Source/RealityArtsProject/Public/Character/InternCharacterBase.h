@@ -46,8 +46,11 @@ protected:
 	void HandleManaChanged(const FOnAttributeChangeData& Data);
 	void HandleWalkSpeedChanged(const FOnAttributeChangeData& Data);
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GAS")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS")
+	TMap<TSubclassOf<UGameplayEffect>, FGameplayTag> BaseAttributesToApply;
 
 	UPROPERTY()
 	TObjectPtr<UInternAttributeSet> AttributeSet;

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AI/InternAIController.h"
 #include "Character/InternCharacterBase.h"
 #include "Components/WidgetComponent.h"
 #include "InternEnemy.generated.h"
@@ -21,6 +22,7 @@ class REALITYARTSPROJECT_API AInternEnemy : public AInternCharacterBase
 public:
 	
 	AInternEnemy();
+	virtual void PossessedBy(AController* NewController) override;
 	
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnDeath OnDeath;
@@ -31,5 +33,15 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Combat")
 	UWidgetComponent* HealthBarWidget;
-	
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Combat")
+	bool IsRangedAttacker;
+
+	protected:
+
+	UPROPERTY()
+	AInternAIController* AIController;
+
+	UPROPERTY(EditAnywhere, Category="AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
 };
