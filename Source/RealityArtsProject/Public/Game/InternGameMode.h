@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Game/InternGameState.h"
 #include "InternGameMode.generated.h"
 
 /**
@@ -40,9 +41,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game")
 	float Score = 0;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game")
-	float ScoreToLevelUp;
 
 private:
 
@@ -56,4 +54,9 @@ private:
 	float DiedEnemyCount = 0;
 	
 	int32 TotalEnemiesToKill = 0;
+
+	AInternGameState* GS;
+
+	bool GameStarted = false;
+
 };

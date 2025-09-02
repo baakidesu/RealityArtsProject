@@ -6,7 +6,6 @@
 #include "Character/InternEnemy.h"
 #include "Game/InternGameState.h"
 
-
 AInternGameMode::AInternGameMode()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -15,6 +14,8 @@ AInternGameMode::AInternGameMode()
 void AInternGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	GS = GetGameState<AInternGameState>();
+
 }
 
 void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
@@ -24,6 +25,11 @@ void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
 		//TODO:: END GAME WIN
 		GetWorldTimerManager().SetTimer(TimerHandle, this, &AInternGameMode::DelayedWinGame, 3.0f, false);
 		return;
+	}
+
+	if (GS && GameStarted)
+	{
+		GS->Multicast_Upgrade(); //Upgrade Widget
 	}
 	
 	for (int i = 0; i < WaveEnemyCount[CurrentWaveIndex]; i++)
@@ -50,11 +56,13 @@ void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
 	}
 	CurrentWaveIndex++;
 	BroadcastScore();
+
+	if (!GameStarted) GameStarted = true;
 }
 
 void AInternGameMode::EndGame(bool bDidWin)
 {
-	if (AInternGameState* GS = GetGameState<AInternGameState>())
+	if (GS)
 	{
 		GS->SetHowGameEnds(bDidWin);
 	}
@@ -71,16 +79,6 @@ void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
 	DiedEnemyCount++;
 	Score += 5;
 	BroadcastScore();
-
-	if (Score >= ScoreToLevelUp)
-	{
-		if (AInternGameState* GS = GetGameState<AInternGameState>())
-		{
-			GS->Multicast_Upgrade();
-		}
-
-		ScoreToLevelUp += 5;
-	}
 	
 	if (DiedEnemyCount == TotalEnemiesToKill)
 	{
