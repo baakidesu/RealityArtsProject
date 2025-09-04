@@ -15,7 +15,6 @@ void AInternGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	GS = GetGameState<AInternGameState>();
-
 }
 
 void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
@@ -45,7 +44,7 @@ void AInternGameMode::IncreaseWaveIndexAndSpawnEnemies()
 
 		if (bFound)
 		{
-			AInternEnemy* SpawnedEnemy = GetWorld()->SpawnActor<AInternEnemy>(EnemyActorClass, RandomPoint.Location, FRotator::ZeroRotator);
+			AInternEnemy* SpawnedEnemy = GetWorld()->SpawnActor<AInternEnemy>(GetRandomEnemyClass(), RandomPoint.Location, FRotator::ZeroRotator);
 			if (SpawnedEnemy != nullptr)
 			{
 				SpawnedEnemy->OnDeath.AddDynamic(this, &AInternGameMode::OnEnemyDeath);
@@ -86,6 +85,11 @@ void AInternGameMode::OnEnemyDeath(AInternEnemy* Enemy)
 		DiedEnemyCount = 0;
 		IncreaseWaveIndexAndSpawnEnemies();
 	}
+}
+
+TSubclassOf<AInternEnemy> AInternGameMode::GetRandomEnemyClass()
+{
+	return EnemyActorClasses[FMath::RandRange(0, EnemyActorClasses.Num() - 1)];	
 }
 
 void AInternGameMode::DelayedWinGame()

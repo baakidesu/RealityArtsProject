@@ -25,7 +25,7 @@ protected:
 	TArray<int32> WaveEnemyCount;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
-	TSubclassOf<AInternEnemy> EnemyActorClass;
+	TArray<TSubclassOf<AInternEnemy>> EnemyActorClasses;
 
 	UPROPERTY(BlueprintReadOnly, Category="Wave")
 	int32 CurrentWaveIndex = 0;
@@ -52,6 +52,9 @@ private:
 	UFUNCTION()
 	void OnEnemyDeath(AInternEnemy* Enemy);
 	float DiedEnemyCount = 0;
+
+	UFUNCTION()
+	TSubclassOf<AInternEnemy> GetRandomEnemyClass();
 	
 	int32 TotalEnemiesToKill = 0;
 
