@@ -14,6 +14,7 @@ AInternProjectile::AInternProjectile()
 	PrimaryActorTick.bCanEverTick = false;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(FName("Sphere Component"));
+	SphereComponent->SetSphereRadius(5.11f);
 
 	NiagaraComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Niagara Component"));
 	NiagaraComponent->SetupAttachment(SphereComponent);
@@ -50,8 +51,15 @@ void AInternProjectile::DestroyNiagaraSystems()
 
 void AInternProjectile::PlaySoundEffect()
 {
-	if (SuccessfulSound && FailSound)
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), SuccessfulHit ? SuccessfulSound : FailSound, GetActorLocation());
+	if (SuccessfulSound && SuccessfulHit)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SuccessfulSound, GetActorLocation());
+
+	}
+	else if (FailSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), FailSound, GetActorLocation());
+	}
 }
 
 bool AInternProjectile::CanHitToTarget()
