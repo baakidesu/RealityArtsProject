@@ -24,15 +24,20 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	UPROPERTY(BlueprintAssignable, Category = "Attributes")
+	UPROPERTY(BlueprintAssignable, Category= "C++ | Attributes")
 	FOnHealthChangedSignature OnHealthChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "Attributes")
+	UPROPERTY(BlueprintAssignable, Category= "C++ | Attributes")
 	FOnHealthChangedSignature OnManaChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "Attributes")
+	UPROPERTY(BlueprintAssignable, Category= "C++ | Attributes")
 	FOnHealthChangedSignature OnWalkSpeedChanged;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "C++ | GAS")
+	TMap<TSubclassOf<UGameplayEffect>, FGameplayTag> BaseAttributesToApply;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "C++ | GAS")
+	TMap<TSubclassOf<UGameplayAbility>, FGameplayTag> BaseAbilitiesToGive;
 
 protected:
 	virtual void BeginPlay() override;
@@ -46,21 +51,18 @@ protected:
 	void HandleManaChanged(const FOnAttributeChangeData& Data);
 	void HandleWalkSpeedChanged(const FOnAttributeChangeData& Data);
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GAS")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "C++ | GAS")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GAS")
-	TMap<TSubclassOf<UGameplayEffect>, FGameplayTag> BaseAttributesToApply;
-
+	
 	UPROPERTY()
 	TObjectPtr<UInternAttributeSet> AttributeSet;
 
-	UPROPERTY(EditAnywhere, Category="Combat")
+	UPROPERTY(EditAnywhere, Category="C++ | Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	UPROPERTY(BlueprintReadOnly, Category = "C++ | Combat")
 	bool bIsAlive = true;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Character")
+	UPROPERTY(BlueprintReadOnly, Category = "C++ | Character")
 	float WalkSpeed;
 };

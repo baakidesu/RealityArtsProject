@@ -31,10 +31,10 @@ public:
 	virtual void Die() override;
 	/* Combat Interface */
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Combat")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= "C++ | Combat")
 	UWidgetComponent* HealthBarWidget;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Combat")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= "C++ | Combat")
 	bool IsRangedAttacker;
 
 	protected:
@@ -42,6 +42,6 @@ public:
 	UPROPERTY()
 	AInternAIController* AIController;
 
-	UPROPERTY(EditAnywhere, Category="AI")
+	UPROPERTY(EditAnywhere, Category="C++ | AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
 };

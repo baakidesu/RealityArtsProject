@@ -22,16 +22,16 @@ public:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | End Game Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "C++ | Widget | End Game Properties")
 	TSubclassOf<UUserWidget> LoseWidgetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | Game Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "C++ | Widget | Game Properties")
 	TSubclassOf<UUserWidget> OverlayWidgetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | End Game Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "C++ | Widget | End Game Properties")
 	TSubclassOf<UUserWidget> WinWidgetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget | Game Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "C++ | Widget | Game Properties")
 	TSubclassOf<UUserWidget> UpgradeWidgetClass;
 
 	UFUNCTION(BlueprintCallable)

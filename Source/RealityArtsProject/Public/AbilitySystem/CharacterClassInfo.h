@@ -18,10 +18,10 @@ struct FCharacterClassDefaultnfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category="Class Defaults")
+	UPROPERTY(EditDefaultsOnly, Category="C++ | Class Defaults")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
 
-	UPROPERTY(EditDefaultsOnly, Category="Class Defaults")
+	UPROPERTY(EditDefaultsOnly, Category="C++ | Class Defaults")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };
 /**
@@ -34,7 +34,7 @@ class REALITYARTSPROJECT_API UCharacterClassInfo : public UDataAsset
 
 public:
 	
-	UPROPERTY(EditDefaultsOnly, Category="Character Class Defaults")
+	UPROPERTY(EditDefaultsOnly, Category="C++ | Character Class Defaults")
 	TMap<ECharacterClass, FCharacterClassDefaultnfo> CharacterClassInformation;
 
 	FCharacterClassDefaultnfo GetClassDefaultsInfo(ECharacterClass CharacterClass);

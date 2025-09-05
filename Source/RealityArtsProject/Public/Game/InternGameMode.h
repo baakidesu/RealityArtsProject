@@ -21,25 +21,25 @@ public:
 	void BeginPlay() override;
 
 protected:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= "C++ | Wave")
 	TArray<int32> WaveEnemyCount;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Wave")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= "C++ | Wave")
 	TArray<TSubclassOf<AInternEnemy>> EnemyActorClasses;
 
-	UPROPERTY(BlueprintReadOnly, Category="Wave")
+	UPROPERTY(BlueprintReadOnly, Category= "C++ | Wave")
 	int32 CurrentWaveIndex = 0;
 	
-	UFUNCTION(BlueprintCallable, Category="Wave")
+	UFUNCTION(BlueprintCallable, Category= "C++ | Wave")
 	void IncreaseWaveIndexAndSpawnEnemies();
 
-	UFUNCTION(BlueprintCallable, Category="Game Condition")
+	UFUNCTION(BlueprintCallable, Category="C++ | Game Condition")
 	void EndGame(bool bDidWin);
 
-	UFUNCTION(BlueprintImplementableEvent, Category="Widget | Score")
+	UFUNCTION(BlueprintImplementableEvent, Category="C++ | Widget")
 	void BroadcastScore();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="C++ | Game")
 	float Score = 0;
 
 private:

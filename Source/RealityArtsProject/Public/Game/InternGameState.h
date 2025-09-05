@@ -19,7 +19,7 @@ class REALITYARTSPROJECT_API AInternGameState : public AGameStateBase
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintAssignable, Category="GameState")
+	UPROPERTY(BlueprintAssignable, Category="C++ | GameState")
 	FOnGameEnds OnGameEnds;
 
 	UPROPERTY(BlueprintAssignable)
