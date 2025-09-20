@@ -23,6 +23,9 @@ AInternProjectile::AInternProjectile()
 	ProjectileMove->InitialSpeed = InitialOrbSpeed;
 	ProjectileMove->MaxSpeed = MaxOrbSpeed;
 	ProjectileMove->ProjectileGravityScale = 0.f;
+
+	SuccessfulSound = nullptr;
+	FailSound = nullptr;
 	
 }
 

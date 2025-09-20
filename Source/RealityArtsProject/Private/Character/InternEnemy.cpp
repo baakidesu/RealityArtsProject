@@ -31,7 +31,7 @@ void AInternEnemy::PossessedBy(AController* NewController)
 void AInternEnemy::Die()
 {
 	SetLifeSpan(5.f);
-
+	AIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
 	OnDeath.Broadcast(this);
 	Super::Die();
 }

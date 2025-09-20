@@ -39,7 +39,7 @@ public:
 
 	protected:
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category= "C++ | AI")
 	AInternAIController* AIController;
 
 	UPROPERTY(EditAnywhere, Category="C++ | AI")
